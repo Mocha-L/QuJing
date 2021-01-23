@@ -20,24 +20,24 @@
 
 列举手机中的所有APP供选择
 
-<img src="https://github.com/Mocha-L/QuJing/blob/master/image/%E9%85%8D%E7%BD%AE%E7%9B%AE%E6%A0%87%E5%BA%94%E7%94%A8.png" width="800px" />
+<img src="https://github.com/Mocha-L/QuJing/blob/master/image/%E9%85%8D%E7%BD%AE%E7%9B%AE%E6%A0%87%E5%BA%94%E7%94%A8.png" width="1000px" />
 
 对选中的APP指导手动操作
 
-<img src="https://github.com/Mocha-L/QuJing/blob/master/image/%E6%89%8B%E5%8A%A8%E6%93%8D%E4%BD%9C%E6%8C%87%E5%AF%BC.png" width="800px" />
+<img src="https://github.com/Mocha-L/QuJing/blob/master/image/%E6%89%8B%E5%8A%A8%E6%93%8D%E4%BD%9C%E6%8C%87%E5%AF%BC.png" width="1000px" />
 
 进入APP，搜索类和方法进行监控
 
-<img src="https://github.com/Mocha-L/QuJing/blob/master/image/%E6%90%9C%E7%B4%A2%E7%9B%AE%E6%A0%87%E7%B1%BB-%E6%96%B9%E6%B3%95.png" width="800px" />
+<img src="https://github.com/Mocha-L/QuJing/blob/master/image/%E6%90%9C%E7%B4%A2%E7%9B%AE%E6%A0%87%E7%B1%BB-%E6%96%B9%E6%B3%95.png" width="1000px" />
 
 进入监控方法，查看基本信息和调用堆栈，打印出入参数。
 
-<img src="https://github.com/Mocha-L/QuJing/blob/master/image/%E7%9B%91%E6%8E%A7%E6%96%B9%E6%B3%95.png" width="800px" />
-<img src="https://github.com/Mocha-L/QuJing/blob/master/image/%E7%9B%91%E6%8E%A7%E6%96%B9%E6%B3%952.png" width="800px" />
+<img src="https://github.com/Mocha-L/QuJing/blob/master/image/%E7%9B%91%E6%8E%A7%E6%96%B9%E6%B3%95.png" width="1000px" />
+<img src="https://github.com/Mocha-L/QuJing/blob/master/image/%E7%9B%91%E6%8E%A7%E6%96%B9%E6%B3%952.png" width="1000px" />
 
 执行方法支持类型
 
-<img src="https://github.com/Mocha-L/QuJing/blob/master/image/%E6%89%A7%E8%A1%8C%E6%96%B9%E6%B3%95.png" width="800px" />
+<img src="https://github.com/Mocha-L/QuJing/blob/master/image/%E6%89%A7%E8%A1%8C%E6%96%B9%E6%B3%95.png" width="1000px" />
 
 ## 使用方法
 
