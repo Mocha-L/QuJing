@@ -1,15 +1,54 @@
-# QuJing
-曲境是连接两个世界(PC和Android)的通道，可实现在PC浏览器动态监控函数调用和查看堆栈信息，及反射调用等功能。
+# QuJing(曲境)
 
->我的小鱼你醒了  
->还认识早晨吗  
->昨夜你曾经说  
->愿夜幕永不开启  
->初吻吻别的那个季节  
->不是已经哭过了吗  
->你的香腮边轻轻滑落的  
->是你的泪 还是我的泪  
->我的指尖还记忆着  
->你慌乱的心跳  
->温润的体香里  
->那一缕长发飘飘  
+曲境是一个xposed模块，可实现在PC浏览器上动态监控（hook）函数调用和查看堆栈信息，及反射调用（invoke）等功能。
+
+## 实现功能
+
+1. 枚举安卓设备所有APP
+2. 根据类名和方法名搜索方法
+3. 方法监控，打印调用栈和出入参
+4. 对目标方法强制执行
+
+## 已知问题
+
+1. 函数频繁调用时，巨量的堆栈信息和出入参打印在浏览器页面，会导致页面内容过多，如无必要数据，可刷新解决。
+2. 部分前端显示存在布局问题
+3. 不支持开机瞬间hook的场景（因为每次开机后需要设置需要hook的APP）
+
+
+## 效果展示
+
+列举手机中的所有APP供选择
+
+<img src="https://github.com/Mocha-L/QuJing/blob/master/image/%E9%85%8D%E7%BD%AE%E7%9B%AE%E6%A0%87%E5%BA%94%E7%94%A8.png" width="800px" />
+
+对选中的APP指导手动操作
+
+<img src="https://github.com/Mocha-L/QuJing/blob/master/image/%E6%89%8B%E5%8A%A8%E6%93%8D%E4%BD%9C%E6%8C%87%E5%AF%BC.png" width="800px" />
+
+进入APP，搜索类和方法进行监控
+
+<img src="https://github.com/Mocha-L/QuJing/blob/master/image/%E6%90%9C%E7%B4%A2%E7%9B%AE%E6%A0%87%E7%B1%BB-%E6%96%B9%E6%B3%95.png" width="800px" />
+
+进入监控方法，查看基本信息和调用堆栈，打印出入参数。
+
+<img src="https://github.com/Mocha-L/QuJing/blob/master/image/%E7%9B%91%E6%8E%A7%E6%96%B9%E6%B3%95.png" width="800px" />
+<img src="https://github.com/Mocha-L/QuJing/blob/master/image/%E7%9B%91%E6%8E%A7%E6%96%B9%E6%B3%952.png" width="800px" />
+
+执行方法支持类型
+
+<img src="https://github.com/Mocha-L/QuJing/blob/master/image/%E6%89%A7%E8%A1%8C%E6%96%B9%E6%B3%95.png" width="800px" />
+
+## 使用方法
+
+具体的使用方法可以看[这篇文章]()。
+
+## 问题交流
+
+如有疑问可以提issue，也欢迎大家进一步优化和提交PR。
+
+也欢迎进入我的知识星球“爬虫三十六计”。
+
+## 鸣谢
+
+项目依据[xserver](https://github.com/monkeylord/XServer)而来，特别感谢原作者！
