@@ -1,6 +1,6 @@
 # QuJing(曲境)
 
-曲境是一个xposed模块，可实现在PC浏览器上动态监控（hook）函数调用和查看堆栈信息，及反射调用（invoke）等功能。
+曲境是一个xposed模块，可实现在PC浏览器上动态监控（hook）函数调用和查看堆栈信息，及反射调用（invoke）等功能。避免了频繁写hook代码的麻烦，提供了可视化的界面，对新手更友好。
 
 ## 实现功能
 
@@ -15,6 +15,11 @@
 2. 部分前端显示存在布局问题
 3. 不支持开机瞬间hook的场景（因为每次开机后需要设置需要hook的APP）
 
+## 使用方法
+
+可直接下载apk目录的apk文件安装体验，具体的使用方法可以看[这篇文章](https://mp.weixin.qq.com/s/zXRKNximCk5DDFfFZcxDJQ)。
+
+如果帮到你，记得点个star哦。
 
 ## 效果展示
 
@@ -39,9 +44,6 @@
 
 <img src="https://github.com/Mocha-L/QuJing/blob/master/image/%E6%89%A7%E8%A1%8C%E6%96%B9%E6%B3%95.png" width="1000px" />
 
-## 使用方法
-
-具体的使用方法可以看[这篇文章]()。
 
 ## 问题交流
 
