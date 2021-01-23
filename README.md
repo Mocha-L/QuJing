@@ -49,6 +49,8 @@
 
 也欢迎进入我的知识星球“爬虫三十六计”。
 
+<img src="https://github.com/Mocha-L/QuJing/blob/master/image/%E6%98%9F%E7%90%83.png" width="400px" />
+
 ## 鸣谢
 
-项目依据[xserver](https://github.com/monkeylord/XServer)而来，特别感谢原作者！
+项目依据[xserver](https://github.com/monkeylord/XServer)优化而来，感谢原作者。
