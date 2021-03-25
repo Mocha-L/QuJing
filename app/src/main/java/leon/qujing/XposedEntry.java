@@ -8,12 +8,9 @@ import android.os.Build;
 import android.os.Process;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -27,7 +24,6 @@ import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-import leon.qujing.utils.Utils;
 
 
 public class XposedEntry implements IXposedHookLoadPackage, IXposedHookZygoteInit {
@@ -129,7 +125,7 @@ public class XposedEntry implements IXposedHookLoadPackage, IXposedHookZygoteIni
     private void gatherInfo(XC_LoadPackage.LoadPackageParam loadPackageParam) {
         packageName = loadPackageParam.packageName;
         isFirstApplication = loadPackageParam.isFirstApplication;
-        classLoader = loadPackageParam.classLoader;
+//        classLoader = loadPackageParam.classLoader;
         processName = loadPackageParam.processName;
         appInfo = loadPackageParam.appInfo;
     }
