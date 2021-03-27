@@ -56,3 +56,5 @@
 ## 鸣谢
 
 项目依据[xserver](https://github.com/monkeylord/XServer)优化而来，感谢原作者。
+
+感谢[@小黄鸭爱学习](https://github.com/HuRuWo)的帮助优化，解决部分情况下classloader错误的问题。
