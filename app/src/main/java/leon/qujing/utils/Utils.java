@@ -25,6 +25,7 @@ import java.util.Map;
 
 public class Utils {
     private static final Map<Class<?>, String> PRIMITIVE_TO_SIGNATURE;
+    private static final HashMap<String, String> contentTypeMapping = new HashMap<String, String>();
 
     static {
         PRIMITIVE_TO_SIGNATURE = new HashMap<Class<?>, String>(9);
@@ -37,6 +38,12 @@ public class Utils {
         PRIMITIVE_TO_SIGNATURE.put(double.class, "D");
         PRIMITIVE_TO_SIGNATURE.put(void.class, "V");
         PRIMITIVE_TO_SIGNATURE.put(boolean.class, "Z");
+        contentTypeMapping.put("css", "text/css");
+        contentTypeMapping.put("js", "application/javascript");
+        contentTypeMapping.put("woff", "font/woff");
+        contentTypeMapping.put("woff2", "font/woff2");
+        contentTypeMapping.put("ico", "image/x-icon");
+        contentTypeMapping.put("json", "application/json");
     }
 
     public static String MethodDescription(Method m) {
@@ -198,6 +205,20 @@ public class Utils {
             }
         }
         return true;
+    }
+
+    public static String getContentType(String uri){
+        String contentType = "text/html";
+        String[] result = uri.split(".");
+        if(result.length < 2){
+            return contentType;
+        }
+        String fileType = result[result.length -1];
+        contentType = contentTypeMapping.get(fileType);
+        if(contentType == null){
+            return "text/html";
+        }
+        return contentType;
     }
 }
 

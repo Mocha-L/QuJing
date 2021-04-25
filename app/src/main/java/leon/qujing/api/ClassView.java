@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.robv.android.xposed.XposedBridge;
 import leon.qujing.QuJingServer;
 import leon.qujing.XposedEntry;
 import leon.qujing.handler.ClassHandler;
@@ -14,6 +15,7 @@ public class ClassView implements QuJingServer.Operation {
     @Override
     public String handle(String url, Map<String, String> parms, Map<String, String> headers, Map<String, String> files) {
         try {
+            XposedBridge.log("find_class:"+parms.get("class"));
             HashMap<String, Object> detail = ClassHandler.getClassDetail(
                     ClassHandler.findClassbyName(parms.get("class"), XposedEntry.classLoader));
             return JSON.toJSONString(detail);

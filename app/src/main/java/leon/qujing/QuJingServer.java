@@ -25,7 +25,9 @@ import freemarker.template.TemplateException;
 import leon.qujing.api.ClassView;
 import leon.qujing.api.Invoke;
 import leon.qujing.api.MethodView;
+import leon.qujing.api.PacketView;
 import leon.qujing.api.wsMethodView;
+import leon.qujing.api.wsPacketView;
 import leon.qujing.objectparser.BooleanParser;
 import leon.qujing.objectparser.ByteArrayParser;
 import leon.qujing.objectparser.ContextParser;
@@ -40,8 +42,10 @@ import leon.qujing.objectparser.StringArrayListParser;
 import leon.qujing.objectparser.StringArrayParser;
 import leon.qujing.objectparser.StringMapParser;
 import leon.qujing.objectparser.StringParser;
+import leon.qujing.utils.NanoHTTPD;
 import leon.qujing.utils.NanoWSD;
 import leon.qujing.utils.Utils;
+
 
 public class QuJingServer extends NanoWSD {
     public static HashMap<String, ObjectParser> parsers = new HashMap<String, ObjectParser>();
@@ -97,13 +101,16 @@ public class QuJingServer extends NanoWSD {
             //注册WebSocket路由
 //            wsroute.put("/", new wsTracer());
             wsroute.put("/methodview", new wsMethodView());
+            wsroute.put("/packetview", new wsPacketView());
 //            wsroute.put("/wsTraceNew", new wsTracerNew());
             //注册HTTP请求路由
             if (route != null) QuJingServer.route = route;
             QuJingServer.route.put("/", new index());
+            QuJingServer.route.put("/config", new index());
             QuJingServer.route.put("/status", new status());
             QuJingServer.route.put("/classview", new ClassView());
             QuJingServer.route.put("/methodview", new MethodView());
+            QuJingServer.route.put("/packetview", new PacketView());
 //            QuJingServer.route.put("/tracer", new Tracer());
             QuJingServer.route.put("/invoke", new Invoke());
 //            QuJingServer.route.put("/invoke2", new Invoke_New());
@@ -130,6 +137,7 @@ public class QuJingServer extends NanoWSD {
         //先做一下基本解析
         Map<String, String> files = new HashMap<String, String>();
         Map<String, String> headers = null;
+        Response resp = null;
         try {
             headers = session.getHeaders();
             session.parseBody(files);
@@ -139,13 +147,19 @@ public class QuJingServer extends NanoWSD {
         String uri = session.getUri();
         //处理路由
         Operation operation = route.get(uri.toLowerCase());
-        if (operation == null)try{
-            XposedEntry.res.getAssets().open(uri.substring(1));
-            operation = new assets();
-        }catch (IOException e){
-            operation = route.get("/");
+        if (operation == null) {
+            try {
+                XposedEntry.res.getAssets().open(uri.substring(1));
+                operation = new assets();
+                String msg = operation.handle(uri, session.getParms(), headers, files);
+                resp = newFixedLengthResponse(Response.Status.OK, null, msg);
+                resp.addHeader("Access-Control-Allow-Origin", "*");
+                return resp;
+            } catch (IOException e) {
+                operation = route.get("/");
+            }
         }
-        Response resp = newFixedLengthResponse(operation.handle(uri, session.getParms(), headers, files));
+        resp = newFixedLengthResponse(operation.handle(uri, session.getParms(), headers, files));
         resp.addHeader("Access-Control-Allow-Origin", "*");
         return resp;
     }
@@ -335,7 +349,6 @@ public class QuJingServer extends NanoWSD {
         @Override
         public String handle(String url, Map<String, String> parms, Map<String, String> headers, Map<String, String> files) {
             try {
-                Map<String, Object> map = new HashMap<String, Object>();
                 return file(url.substring(1));
             } catch (Exception e) {
                 e.printStackTrace();
