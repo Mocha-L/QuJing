@@ -1,5 +1,6 @@
 package leon.qujing.utils;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,10 +14,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.URLEncoder;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -220,6 +224,59 @@ public class Utils {
         }
         return contentType;
     }
+
+    public static String md5Hash(String val) throws NoSuchAlgorithmException {
+        MessageDigest md5 = MessageDigest.getInstance("MD5");
+        md5.update(val.getBytes());
+        byte[] m = md5.digest();
+        return getHexString(m);
+    }
+
+    private static String getHexString(byte[] b){
+        StringBuilder sb = new StringBuilder();
+        for (int value : b) {
+            int temp = value;
+            if (temp < 0) temp += 256;
+            if (temp < 16) sb.append("0");
+            sb.append(Integer.toHexString(temp));
+        }
+        return sb.toString();
+//      return sb.toString().substring(8, 24);
+    }
+
+    @SuppressLint("DefaultLocale")
+    public static String formatHexDump(byte[] array, int offset, int length) {
+        final int width = 16;
+
+        StringBuilder builder = new StringBuilder();
+
+        for (int rowOffset = offset; rowOffset < offset + length; rowOffset += width) {
+            builder.append(String.format("%06X    ", rowOffset));
+
+            for (int index = 0; index < width; index++) {
+                if (rowOffset + index < array.length) {
+                    builder.append(String.format("%02x ", array[rowOffset + index]));
+                } else {
+                    builder.append("   ");
+                }
+            }
+
+            if (rowOffset < array.length) {
+                int asciiWidth = Math.min(width, array.length - rowOffset);
+                builder.append("  |  ");
+                try {
+                    builder.append(new String(array, rowOffset, asciiWidth, "UTF-8").replaceAll("\r\n", " ").replaceAll("\n", " ").replaceAll("\r", " "));
+                } catch (UnsupportedEncodingException ignored) {
+                    //If UTF-8 isn't available as an encoding then what can we do?!
+                }
+            }
+
+            builder.append(String.format("%n"));
+        }
+
+        return builder.toString();
+    }
+
 }
 
 

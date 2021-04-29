@@ -28,9 +28,6 @@
                 border-color: #000;
                 height: 40px;
             }
-            div{
-                text-align: center;
-            }
             img.icon{
                 height: 20px;
                 width: 20px;
@@ -103,6 +100,42 @@
                 border: 1px solid;
                 padding-bottom: 40px;
             }
+            #tab {
+                width:100%;
+                padding:5px;
+                DISPLAY: INLINE-TABLE;
+            }
+            #tab ul {
+                list-style:none;
+                display:table-header-group;
+                height:30px;
+                line-height:30px;
+                border-bottom:2px #C88 solid;
+            }
+            #tab ul li {
+                background:#FFF;
+                cursor:pointer;
+                float:left;
+                list-style:none height:29px;
+                line-height:29px;
+                padding:0px 10px;
+                border:1px solid #BBB;
+                border-bottom:2px solid #C88;
+            }
+            #tab ul li.on {
+                border-top:2px solid gray;
+                border-bottom:2px solid #FFF;
+            }
+            #tab div {
+                border-top:none;
+                padding:1px;
+                border:1px solid #336699;
+                padding:10px;
+            }
+            .hide {
+                display:none;
+            }
+
 
             /* 关闭按钮 */
             .close {
@@ -123,6 +156,7 @@
                 background-color: #7777ff;
                 color: white;
                 padding: 5px 20px;
+                text-align: center;
             }
 
             .modal-body {
@@ -194,6 +228,7 @@
         }
         var table_id = 0;
         var flow_up_icon = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2VsQ2DMBBF/xVhi9Am2YJMBkyWbJGkhS2gMDISElKMuTuD3JwbGsvv+dv+EDIPysyHCSQl8CmLxh/hoxvmr2aoBTycgNpDHdBqJVQCa/iya62EWCAET5EQCcTgiwQBza0bWu59YAtw4BoJloAELpXYFdDAJRJRgRQ4V2JT4Ag4RyIo8CuL2gHqdgu9gK2e+BM4Ax7rid1LuN7N93p5gaiKvnHn3vd+fB7eA35BE7AELAFLwBLIngC33yXzRD8jycLcuSYwAb/5liEUxn7yAAAAAElFTkSuQmCC';
+        var ssl_icon = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAD3ElEQVRIS72WXWgcVRTH/+fuLo1C2uykWMSCUXcSQhqojb7kZRNB+6Sk2KIBFaFi3Nka/Nb4kvXFpmpbie4uDRWRQh9UiG0KraFQizZFMBUXtE1ugkL60nzMViOamJ35y+SjmWw2yaYPuY9zzz2/c/73nHtGsEFLNoiDdYHCx4a3kLkKUClHuSOTLVXjxQa6JshI6scANkMkCuC+PMejAE5TeCobqzyzGnRF0NZD10rd0sARAC8sOmAGIj/BhUOgTgS7FvYE6HEcHLn5svldIWBBUPjYcK24/Bbk3QAuKeCDqRwu/91qjvmdbD4+YoRmpqMkOgBWQkCXaLxpmRfzYctAZSkdVcBcVCJv2LHI4WLuwUgOfg6R52dtFWrsl8zf/OeWgjr1pnAIfULsEuDdCcs8WAxkwcZI6r0QfEXBlewM6tFqTvukXXQVTut3hDhISH/Wijy0HsiCbXly8BBF3qKgLRszOwqCjLTOgKgVqEcnrAfO3w7I6NSbEcRFECV23KxeBipLX61QDP4O4EdXck8HEHyTRJMAN0g5accjHxlJ3U6FJ4QIQ6RXKXa5Lh4n0ZC1zMYFp+HU0BcCPucEEPmzxRyeve5bKacGmgjVTfATBdVPICHiPOVKaJvzz7+X/nqtxjZSmkrQ6GBmXBDaa8fMhJHW7fkgI6kTELQL3D0TVtU3S0BGSr8C4CgFz8xvnADwnlLoGW8xrxidejuCvArgJKi67XjknGdnJAcSFBX1Z2Sk9D4AXwJ41bbMj1cEOaGSs6H/ppoB7CMQBdhlW5Ut5Z8OPAul9rvAPQBGspb5SMGMVgOV+6TLWpWti5IONRHsti1zSSt4MroINijJNSyTLq3bQSQKSucvBgjOwuWLUNIFoh7EZRH+QEgvISeELIFgh22ZNQsZicw3OQBS7veKIRhAZDS/GGb1Tg9lQNZKQPbQ5c7ZrNxcrx2v7pu7D52AAsRlRkFlxuKRIQ/kLyoBNoHYTcEddqxAeXuOylO6jcD73sNpxyIP304flad0B4G381+WJbpXJC6UTN61vY/AgyTasvHFzi4GaqQHnwTlawF+Lh29Xv9HonGq4Mvgfdya1g0ucWHe4HXbMr1RseYyUvo4gP1zcmOHfcD81X+o4JgoSw7uVEqdA7kNkO9Jfphjrm/yQPWE//CWVCYcxJ1RYnZMVHl7XkOPx5bPpJUH32fXSt3pwNFbUc513S9w2Q9BjpA6Aep80pxxHBxe1+DzR22k9W6QzYDyGrfCv0diTASnSZzKxs2e1fRd858hXyphyb1BigoE5PqNWMT7ZyhqrQtUlMcVjDYM9D+2Ka0qpYfBaAAAAABJRU5ErkJggg==';
         var flow_down_icon = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVRYR+2VzRGCQAxGv9iB9sDYhpSjFsFShFoOtuHQA3bgOjDjQd2fJKyDh3Bl4T1eYCEsfNDCfJiAqMD63HcE7FJj88D1fqhq7mhNwApYAStgBf6vwObSN/Bw3L1ctM4/2uG4fbt3sMBPJALwUT46gqISEXhSYDxZRCIBzwpMEqebA60a0axfizNwloC6BAPOFhBLMOEiAbaEAC4WyL4TQrhKICqhgKsFvsZBcMO+ajVfiuhf8AmY9gkAWvisApqnDV0zq0AJCRN4AsKQnyHFpPdLAAAAAElFTkSuQmCC';
         function close_modal() {
             var modal = document.getElementById('myModal');
@@ -203,10 +238,14 @@
             var td_list = object.getElementsByTagName("td");
             console.log(td_list);
             var modal = document.getElementById('myModal');
-            var model_body = document.getElementById('model_body');
+            var stringPage = document.getElementById('stringPage');
+            var bytePage = document.getElementById('bytePage');
+            var hexPage = document.getElementById('hexPage');
             var model_title = document.getElementById('model_title');
-            model_title.innerHTML = "No." + td_list[1].innerText + "数据流详情"
-            model_body.innerHTML = td_list[6].innerHTML
+            model_title.innerHTML = "No." + td_list[1].innerText + "数据流 详情"
+            stringPage.innerHTML = td_list[9].innerHTML
+            bytePage.innerHTML = td_list[10].innerHTML
+            hexPage.innerHTML = td_list[11].innerHTML
             modal.style.display = "block";
         }
         function addTr(raw_index, msg) {
@@ -229,9 +268,13 @@
                 var flow_icon = "";
             }
             var body_length = msg.body_length == null ? "":msg.body_length;
+            var flow_id = msg.flow_id == null ? "":msg.flow_id;
+            var is_ssl = msg.is_ssl == 1 ? '<img class="icon" src="' + ssl_icon + '">':"";
             var time_second = msg.time == null ? "":msg.time;
             var body = msg.body_plain == null ? "InBase64#" + msg.body_base64 : msg.body_plain;
-            var body_abstract = body.length > 100 ? body.substr(0, 100) + "..." : body;
+            var body_string = msg.body_plain == null ? "":msg.body_plain;
+            var body_byte = msg.body_base64 == null ? "":msg.body_base64;
+            var body_hexdump = msg.body_hexdump == null ? "":msg.body_hexdump;
 
             // 追加一行
             tbody.innerHTML +=
@@ -239,11 +282,34 @@
                 "    <td>"+flow_icon+"</td>\n" +
                 "    <td>"+raw_index+"</td>\n" +
                 "    <td>"+time_second+"</td>\n" +
+                "    <td>"+flow_id+"</td>\n" +
                 "    <td>"+src+"</td>\n" +
                 "    <td>"+dest+"</td>\n" +
+                "    <td>"+is_ssl+"</td>\n" +
                 "    <td>"+body_length+"</td>\n" +
                 '    <td class="body_abstract">'+body+"</td>\n" +
+                '    <td style="display:none;">'+body_string+"</td>\n" +
+                '    <td style="display:none;">'+body_byte+"</td>\n" +
+                '    <td style="display:none;">'+body_hexdump+"</td>\n" +
                 "</tr>";
+        }
+        window.onload = function() {
+            var myTab = document.getElementById("tab"); //整个div
+            var myUl = myTab.getElementsByTagName("ul")[0]; //一个节点
+            var myLi = myUl.getElementsByTagName("li"); //数组
+            var myDiv = myTab.getElementsByTagName("div"); //数组
+
+            for (var i = 0; i < myLi.length; i++) {
+                myLi[i].index = i;
+                myLi[i].onclick = function() {
+                    for (var j = 0; j < myLi.length; j++) {
+                        myLi[j].className = "off";
+                        myDiv[j].className = "hide";
+                    }
+                    this.className = "on";
+                    myDiv[this.index].className = "show";
+                }
+            }
         }
 
         </script>
@@ -259,13 +325,18 @@
 <table>
     <tbody>
     <tr>
-        <th style="width: 30px; background-color: ">流向</th>
+        <th style="width: 30px;">流向</th>
         <th style="width: 30px;">No.</th>
         <th style="width: 100px;">时间</th>
+        <th style="width: 80px;">FlowID</th>
         <th style="width: 250px;">源地址</th>
         <th style="width: 250px;">目的地址</th>
+        <th style="width: 30px;">SSL</th>
         <th style="width: 50px;">长度</th>
         <th class="body_abstract" style="text-align: center;">详情</th>
+        <th style="display:none;">String</th>
+        <th style="display:none;">Byte(inBase64)</th>
+        <th style="display:none;">HexDump</th>
     </tr>
     </tbody>
 </table>
@@ -278,13 +349,26 @@
             <span id="model_title"></span>
         </div>
         <div class="modal-body" id="model_body">
+            <div id="tab">
+                <ul>
+                    <li class="on">String</li>
+                    <li class="off">Byte(inBase64)</li>
+                    <li class="off">HexDump</li>
+                </ul>
+                <div id="stringPage" class="show">
+                </div>
+                <div id="bytePage" class="hide">
+                </div>
+                <div id="hexPage" class="hide" style="font-family: monospace;">
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <footer style="margin: 30px auto 5px auto;text-align: center;color: #ccc;font-size: 13px;">
     <p><a href="https://github.com/Mocha-L/QuJing" target="_blank" >曲境</a>由<a href="http://honglingjin.online/" target="_blank" >Mocha-Lee</a>倾<i class="heart" style="color: #FF3B30;font-family: FontAwesome;font-style: normal;"></i>奉献</p>
-    <p>欢迎关注微信公众号“燕幕自安”与我沟通交流</p>
+    <p>欢迎关注微信公众号“燕幕自安”（知识星球:爬虫三十六计）与我沟通交流</p>
     <style type="text/css">
                 .heart:before {
                     content: "\f004";
