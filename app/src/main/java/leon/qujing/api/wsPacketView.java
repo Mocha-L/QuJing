@@ -1,6 +1,7 @@
 package leon.qujing.api;
 
 import android.annotation.SuppressLint;
+import android.text.Html;
 import android.util.Base64;
 
 import com.alibaba.fastjson.JSON;
@@ -81,9 +82,9 @@ public class wsPacketView implements QuJingServer.wsOperation {
             msg.put("remote_ip", inetAddr.getHostAddress());
             msg.put("remote_host", inetAddr.getHostName());
             msg.put("remote_port", socket.getPort()+"");
-            msg.put("body_plain", new String(body, "UTF-8"));
-            msg.put("body_hexdump", Utils.formatHexDump(body, 0, body.length));;
-            msg.put("body_base64", Base64.encodeToString(body, Base64.NO_WRAP));
+            msg.put("body_plain", Html.escapeHtml(new String(body, 0, byteCount,"UTF-8")));
+            msg.put("body_hexdump", Utils.formatHexDump(body, 0, byteCount));;
+            msg.put("body_base64", Base64.encodeToString(body, 0, byteCount, Base64.NO_WRAP));
             msg.put("body_length", byteCount+"");
             sendMsg("add", msg);
         }

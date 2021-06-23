@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
+import android.text.Html;
 import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
@@ -251,21 +252,21 @@ public class Utils {
         StringBuilder builder = new StringBuilder();
 
         for (int rowOffset = offset; rowOffset < offset + length; rowOffset += width) {
-            builder.append(String.format("%06X    ", rowOffset));
+            builder.append(String.format("%06X | ", rowOffset));
 
             for (int index = 0; index < width; index++) {
-                if (rowOffset + index < array.length) {
+                if (rowOffset + index < offset + length) {
                     builder.append(String.format("%02x ", array[rowOffset + index]));
                 } else {
                     builder.append("   ");
                 }
             }
 
-            if (rowOffset < array.length) {
-                int asciiWidth = Math.min(width, array.length - rowOffset);
+            if (rowOffset < offset + length) {
+                int asciiWidth = Math.min(width, offset + length - rowOffset);
                 builder.append("  |  ");
                 try {
-                    builder.append(new String(array, rowOffset, asciiWidth, "UTF-8").replaceAll("\r\n", " ").replaceAll("\n", " ").replaceAll("\r", " "));
+                    builder.append(Html.escapeHtml(new String(array, rowOffset, asciiWidth, "UTF-8").replaceAll("\r\n", " ").replaceAll("\n", " ").replaceAll("\r", " ")));
                 } catch (UnsupportedEncodingException ignored) {
                     //If UTF-8 isn't available as an encoding then what can we do?!
                 }

@@ -52,18 +52,14 @@ public class StoredObjectParser implements QuJingServer.ObjectParser {
         try{
             Field fields[] = obj.getClass().getDeclaredFields();
             for (Field field:fields) {
-                // 只处理public属性
-                // Handle public field only
-                //if(field.isAccessible()){
-                    field.setAccessible(true);
-                    Object fieldObj = field.get(obj);
-                    Log.e("QuJingServer", "SOParser Field: " + field.getName() + "@" + Utils.getTypeSignature(fieldObj.getClass()));
-                    // 只处理原始类型，避免循环引用
-                    // Handle primitive type only, avoid cell.
-                    if(fieldObj.getClass().isPrimitive()||parsers.get(Utils.getTypeSignature(fieldObj.getClass()))!=null){
-                        fieldmap.put(field.getName(),ObjectHandler.saveObject(fieldObj));
-                    }
-                //}
+                field.setAccessible(true);
+                Object fieldObj = field.get(obj);
+                Log.e("QuJingServer", "SOParser Field: " + field.getName() + "@" + Utils.getTypeSignature(fieldObj.getClass()));
+                // 只处理原始类型，避免循环引用
+                // Handle primitive type only, avoid cell.
+                if(fieldObj.getClass().isPrimitive()||parsers.get(Utils.getTypeSignature(fieldObj.getClass()))!=null){
+                    fieldmap.put(field.getName(),ObjectHandler.saveObject(fieldObj));
+                }
             }
         }catch (Exception e){
             Log.e("QuJingServer", "SOParser: " + e.getLocalizedMessage() );
