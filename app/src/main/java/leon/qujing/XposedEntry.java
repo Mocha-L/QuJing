@@ -47,6 +47,32 @@ public class XposedEntry implements IXposedHookLoadPackage, IXposedHookZygoteIni
         }
     }
 
+    private boolean isNeedHook(){
+        try {
+            HttpURLConnection connection = null;
+            BufferedReader reader = null;
+            URL url = new URL("http://127.0.0.1:61000/querytargetapp");
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setConnectTimeout(1000);
+            connection.setReadTimeout(1000);
+            InputStream in = connection.getInputStream();
+            reader = new BufferedReader(new InputStreamReader(in));
+            StringBuilder result = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                result.append(line);
+            }
+            String TargetAppsStr = result.toString();
+            return TargetAppsStr.contains(XposedEntry.packageName + ";");
+        }
+        catch (Exception e){
+            XposedBridge.log("isNeedHook Exception:"+e.getMessage());
+            XposedBridge.log("被注入应用如果没有网络权限，曲境将无法运行");
+            return false;
+        }
+    }
+
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
         if(loadPackageParam.packageName.equals(StartupAPP))
@@ -68,59 +94,24 @@ public class XposedEntry implements IXposedHookLoadPackage, IXposedHookZygoteIni
                 new XC_MethodHook() {
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-
                         Context context = (Context) param.args[0];
-
                         classLoader = context.getClassLoader();
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                HttpURLConnection connection = null;
-                                BufferedReader reader = null;
-                                try {
-                                    URL url = new URL("http://127.0.0.1:61000/querytargetapp");
-                                    connection = (HttpURLConnection) url.openConnection();
-                                    connection.setRequestMethod("GET");
-                                    connection.setConnectTimeout(1000);
-                                    connection.setReadTimeout(1000);
-                                    InputStream in = connection.getInputStream();
-                                    reader = new BufferedReader(new InputStreamReader(in));
-                                    StringBuilder result = new StringBuilder();
-                                    String line;
-                                    while ((line = reader.readLine()) != null) {
-                                        result.append(line);
-                                    }
-                                    String TargetAppsStr = result.toString();
-                                    if (TargetAppsStr.contains(XposedEntry.packageName + ";"))
-                                    {
-                                        int pid = Process.myPid();
-                                        new QuJingServer(pid);
-                                        XposedBridge.log("QuJingServer Listening @:"+ pid +" packageName: "+XposedEntry.packageName);
-                                    }
-                                } catch (MalformedURLException e) {
-                                    e.printStackTrace();
-                                } catch (ProtocolException e) {
-                                    e.printStackTrace();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }  finally {
-                                    if (reader != null) {
-                                        try {
-                                            reader.close();
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                    if (connection != null) {//关闭连接
-                                        connection.disconnect();
-                                    }
+                                boolean isHook = isNeedHook();
+                                XposedBridge.log(XposedEntry.packageName + " isHook: "+isHook);
+                                if (isHook) {
+                                    int pid = Process.myPid();
+                                    new QuJingServer(pid);
+                                    XposedBridge.log("QuJingServer Listening @:"+ pid +" packageName: "+XposedEntry.packageName);
                                 }
                             }
                         }).start();
-                        XposedBridge.log("Thread start");
                     }
                 });
     }
+
 
     private void gatherInfo(XC_LoadPackage.LoadPackageParam loadPackageParam) {
         packageName = loadPackageParam.packageName;
