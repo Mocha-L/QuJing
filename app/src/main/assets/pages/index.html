@@ -84,7 +84,7 @@
 
                     for (i = 0; i < result.methodList.length; i++) {
                         var obj=document.createElement("p");
-                        obj.innerHTML="<a style=\"margin-left: 40px;\" href=/methodview?class="+result.name+"&method="+i+">" + "\t" + result.methodList[i] + "</a>";
+                        obj.innerHTML="<a style=\"margin-left: 40px;\" href=/methodview?class="+result.name+"&method="+i+" target=\"_blank\">" + "\t" + result.methodList[i] + "</a>";
                         classresult.appendChild(obj);
                     }
                 }
