@@ -26,7 +26,7 @@
     </h2>
     <form class="search_form">
         <input type="text" id="classname" class="input_text" placeholder="请输入要搜索的目标类名如：com.a.b.c"><!-- -->
-        <input id="search" value="曲境一下" class="input_sub">
+        <input id="search" value="曲境一下" class="input_sub" readonly="true">
     </form>
     <div id="searchresult" style="display: none;width:582px;margin: 30px auto 50px auto;background: #ddf;border: 1px solid blue;padding: 10px;font-size: 13px;">
 
@@ -84,7 +84,7 @@
 
                     for (i = 0; i < result.methodList.length; i++) {
                         var obj=document.createElement("p");
-                        obj.innerHTML="<a style=\"margin-left: 40px;\" href=/methodview?class="+result.name+"&method="+i+">" + "\t" + result.methodList[i] + "</a>";
+                        obj.innerHTML="<a style=\"margin-left: 40px;\" href=/methodview?class="+result.name+"&method="+i+" target=\"_blank\">" + "\t" + result.methodList[i] + "</a>";
                         classresult.appendChild(obj);
                     }
                 }

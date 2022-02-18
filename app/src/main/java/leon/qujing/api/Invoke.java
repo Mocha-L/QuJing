@@ -26,12 +26,17 @@ public class Invoke implements QuJingServer.Operation {
             Method m = methods[Integer.parseInt(parms.get("method"))];
             params = new Object[m.getParameterTypes().length];
             for (int i = 0; i < m.getParameterTypes().length; i++) {
-                params[i] = QuJingServer.parsers.get(parms.get("parser" + i)).parse(parms.get("param" + i));
+                if (parms.get("parser" + i).equals("null")){
+                    params[i] = null;
+                }
+                else {
+                    params[i] = QuJingServer.parsers.get(parms.get("parser" + i)).parse(parms.get("param" + i));
+                }
             }
             m.setAccessible(true);
             sb.append(translate(m.invoke(thisobj, params)));
         } catch (Exception e) {
-            sb.append("执行异常，报错信息: " + e.getLocalizedMessage());
+            sb.append("执行异常，报错信息: ").append(e.getLocalizedMessage());
         }
         return sb.toString();
     }

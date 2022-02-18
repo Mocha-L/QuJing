@@ -177,10 +177,15 @@ public class wsMethodView implements QuJingServer.wsOperation {
             sb.append("<dl>");
             try {
                 if (args != null) for (int i = 0; i < args.length; i++) {
-                    sb.append("<dt>参数" + i + " " + args[i].getClass().getName() + "</dt>");
-                    sb.append("<dd>" + translate(args[i]) + "</dd>");
+                    if(args[i] == null){
+                        sb.append("<dt>参数" + i + " " + "null </dt>");
+                    }
+                    else {
+                        sb.append("<dt>参数" + i + " " + args[i].getClass().getName() + "</dt>");
+                        sb.append("<dd>" + translate(args[i]) + "</dd>");
+                    }
                 }
-            } catch (Throwable e) {
+            } catch (Exception e) {
                 sb.append("<p>" + e.getLocalizedMessage() + "</p>");
             } finally {
                 sb.append("</dl></div>");
