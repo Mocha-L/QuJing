@@ -15,8 +15,7 @@
 2. 部分前端显示存在布局问题
 3. 不支持开机瞬间hook的场景（因为每次开机后需要设置需要hook的APP）
 4. 对于本身不具备网络权限的APP暂不支持
-~~5. 对LSPOSED的支持好像还有问题，现象是不能打开61000端口，晚点支持~~
-（LSPOSED已经支持，使用时不仅仅要在Lsposed中勾选目标APP，**还需要勾选“系统框架”哦**[如图](https://github.com/Mocha-L/QuJing/assets/24688287/53906a4e-96ca-4824-83c5-eb5cc70dd2af)）
+5. ~~对LSPOSED的支持好像还有问题，现象是不能打开61000端口，晚点支持~~（LSPOSED已经支持，使用时不仅仅要在Lsposed中勾选目标APP，**还需要勾选“系统框架”哦**[如图](https://github.com/Mocha-L/QuJing/assets/24688287/53906a4e-96ca-4824-83c5-eb5cc70dd2af)）
 
 ## 使用方法
 
