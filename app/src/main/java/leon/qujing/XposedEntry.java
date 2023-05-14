@@ -47,10 +47,10 @@ public class XposedEntry implements IXposedHookLoadPackage, IXposedHookZygoteIni
         }
     }
 
-    private boolean isNeedHook(){
+    private boolean isNeedHook() throws IOException {
+        BufferedReader reader = null;
         try {
             HttpURLConnection connection = null;
-            BufferedReader reader = null;
             URL url = new URL("http://127.0.0.1:61000/querytargetapp");
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
@@ -58,19 +58,29 @@ public class XposedEntry implements IXposedHookLoadPackage, IXposedHookZygoteIni
             connection.setReadTimeout(1000);
             InputStream in = connection.getInputStream();
             reader = new BufferedReader(new InputStreamReader(in));
-            StringBuilder result = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                result.append(line);
-            }
-            String TargetAppsStr = result.toString();
-            return TargetAppsStr.contains(XposedEntry.packageName + ";");
         }
         catch (Exception e){
-            XposedBridge.log("isNeedHook Exception:"+e.getMessage());
-            XposedBridge.log("被注入应用如果没有网络权限，曲境将无法运行");
-            return false;
+            try {
+                XposedBridge.log("HttpURLConnection Exception:"+e.getMessage());
+                XposedBridge.log("try curl access http");
+                java.lang.Process p = Runtime.getRuntime().exec("/system/bin/curl http://127.0.0.1:61000/querytargetapp");
+                p.waitFor();
+                reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            } catch (Exception e2) {
+                XposedBridge.log("curl Exception:"+e2.getMessage());
+                XposedBridge.log(e2);
+                XposedBridge.log("被注入应用如果没有网络权限，曲境将无法运行");
+                return false;
+            }
         }
+        StringBuilder result = new StringBuilder();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            result.append(line);
+        }
+        String TargetAppsStr = result.toString();
+        XposedBridge.log("TargetAppsStr:" + TargetAppsStr);
+        return TargetAppsStr.contains(XposedEntry.packageName + ";");
     }
 
     @Override
@@ -89,7 +99,13 @@ public class XposedEntry implements IXposedHookLoadPackage, IXposedHookZygoteIni
 
         if (loadPackageParam.processName.contains(":")) return;
         gatherInfo(loadPackageParam);
-
+        XposedHelpers.findAndHookMethod("com.android.okhttp.HttpHandler$CleartextURLFilter", XposedEntry.classLoader,"checkURLPermitted", URL.class, new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                XposedBridge.log("HttpHandler$CleartextURLFilter skip, packageName:"+ XposedEntry.packageName);
+                param.setResult(null);
+            }
+        });
         XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class,
                 new XC_MethodHook() {
                     @Override
@@ -99,7 +115,12 @@ public class XposedEntry implements IXposedHookLoadPackage, IXposedHookZygoteIni
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                boolean isHook = isNeedHook();
+                                boolean isHook = false;
+                                try {
+                                    isHook = isNeedHook();
+                                } catch (IOException e) {
+                                    XposedBridge.log(e);
+                                }
                                 XposedBridge.log(XposedEntry.packageName + " isHook: "+isHook);
                                 if (isHook) {
                                     int pid = Process.myPid();
