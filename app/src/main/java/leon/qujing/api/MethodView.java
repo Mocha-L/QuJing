@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.robv.android.xposed.XposedBridge;
 import leon.qujing.QuJingServer;
 import leon.qujing.XposedEntry;
 import leon.qujing.handler.ClassHandler;
@@ -25,7 +26,7 @@ public class MethodView implements QuJingServer.Operation {
             Context context = AndroidAppHelper.currentApplication().getApplicationContext();
             PackageManager pm = context.getPackageManager();
             PackageInfo packageInfo = pm.getPackageInfo(context.getPackageName(), 0);
-            Method method=null;
+            Method method = null;
             if(parms.get("javaname")!=null) {
                 method = MethodHandler.getMethodbyJavaName(parms.get("javaname"));
                 for (int i = 0; i < method.getDeclaringClass().getDeclaredMethods().length; i++) {
@@ -36,13 +37,14 @@ public class MethodView implements QuJingServer.Operation {
             }
             if(method==null)method=ClassHandler.findClassbyName(parms.get("class"),XposedEntry.classLoader).getDeclaredMethods()[Integer.parseInt(parms.get("method"))];
             HashMap<String, Object> map = MethodHandler.getMethodDetail(method);
-            map.put("method",parms.get("method"));
+            map.put("method", parms.get("method"));
             map.put("objList", ObjectHandler.objects.keySet());
             map.put("DisplayName", packageInfo.applicationInfo.loadLabel(context.getPackageManager()).toString());
             map.put("IconBase64", Utils.drawableToByte(packageInfo.applicationInfo.loadIcon(context.getPackageManager())));
             map.put("ProcessID", String.valueOf(Process.myPid()));
             return QuJingServer.render(map, "pages/methodview.html");
         } catch (Exception e) {
+            XposedBridge.log(e);
             return e.getLocalizedMessage();
         }
     }

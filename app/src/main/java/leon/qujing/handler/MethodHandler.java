@@ -21,7 +21,14 @@ public class MethodHandler {
         detail.put("returnType", method.getReturnType());
         detail.put("exceptionTypes", method.getExceptionTypes());
         detail.put("description", Utils.MethodDescription(method));
-        detail.put("json", JSON.toJSONString(method, SerializerFeature.PrettyFormat));
+        String method_pretty_json = "";
+        try {
+            method_pretty_json = JSON.toJSONString(method, SerializerFeature.PrettyFormat);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        detail.put("json", method_pretty_json);
         return detail;
     }
 
