@@ -106,6 +106,7 @@ public class XposedEntry implements IXposedHookLoadPackage, IXposedHookZygoteIni
                 param.setResult(null);
             }
         });
+        disableHooks();
         XposedHelpers.findAndHookMethod(Application.class, "attach", Context.class,
                 new XC_MethodHook() {
                     @Override
@@ -133,6 +134,27 @@ public class XposedEntry implements IXposedHookLoadPackage, IXposedHookZygoteIni
                 });
     }
 
+    private void disableHooks(){
+        XposedHelpers.findAndHookMethod(ClassLoader.class,"loadClass",String.class,new XC_MethodHook(){
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable{
+                if(param.args!=null && param.args[0] != null && param.args[0].toString().startsWith("de.robv.android.xposed.")){
+                    //改成一个不存在的类
+                    param.args[0]="de.robv.android.xposed.ThTest";
+                }
+                super.beforeHookedMethod(param);
+            }
+        });
+        XposedHelpers.findAndHookMethod(Class.class,"getDeclaredField",String.class,new XC_MethodHook(){
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable{
+                if(param.args!=null && param.args[0] != null && param.args[0].toString().equals("disableHooks")){
+                    param.args[0]="disableHook";
+                }
+                super.beforeHookedMethod(param);
+            }
+        });
+    }
 
     private void gatherInfo(XC_LoadPackage.LoadPackageParam loadPackageParam) {
         packageName = loadPackageParam.packageName;
