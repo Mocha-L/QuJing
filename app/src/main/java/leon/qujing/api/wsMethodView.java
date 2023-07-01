@@ -176,14 +176,15 @@ public class wsMethodView implements QuJingServer.wsOperation {
             sb.append("</details></details>");
             sb.append("<dl>");
             try {
-                if (args != null) for (int i = 0; i < args.length; i++) {
-                    if(args[i] == null){
-                        sb.append("<dt>参数" + i + " " + "null </dt>");
-                    }
-                    else {
-                        sb.append("<dt>参数" + i + " " + args[i].getClass().getName() + "</dt>");
-                        sb.append("<dd>" + translate(args[i]) + "</dd>");
-                    }
+                if (args != null)
+                    for (int i = 0; i < args.length; i++) {
+                        if(args[i] == null){
+                            sb.append("<dt>参数" + i + " " + "null </dt>");
+                        }
+                        else {
+                            sb.append("<dt>参数" + i + " " + args[i].getClass().getName() + "</dt>");
+                            sb.append("<dd>" + translate(args[i]) + "</dd>");
+                        }
                 }
             } catch (Exception e) {
                 sb.append("<p>" + e.getLocalizedMessage() + "</p>");
@@ -254,10 +255,16 @@ public class wsMethodView implements QuJingServer.wsOperation {
 
         private String translate(Object obj) {
             //Write your translator here.
-            if (obj == null) return "null";
-            if (obj.getClass().getName().equals("java.lang.String")) return obj.toString();
-            else if(Utils.getTypeSignature(obj.getClass()).equals("[B"))return parsers.get("[B").generate(obj);
-            else return JSON.toJSONString(obj);
+            try {
+                if (obj == null) return "null";
+                if (obj.getClass().getName().equals("java.lang.String")) return obj.toString();
+                else if(Utils.getTypeSignature(obj.getClass()).equals("[B"))return parsers.get("[B").generate(obj);
+                else return JSON.toJSONString(obj);
+            }
+            catch (Exception e){
+                e.printStackTrace();
+                return "params translate ERROR.";
+            }
         }
 
         private String MethodDescription(MethodHookParam param) {
